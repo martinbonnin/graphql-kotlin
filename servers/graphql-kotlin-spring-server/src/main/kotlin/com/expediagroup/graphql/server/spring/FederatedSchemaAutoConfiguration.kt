@@ -23,7 +23,7 @@ import com.expediagroup.graphql.generator.extensions.print
 import com.expediagroup.graphql.generator.federation.FederatedSchemaGeneratorConfig
 import com.expediagroup.graphql.generator.federation.FederatedSchemaGeneratorHooks
 import com.expediagroup.graphql.generator.federation.execution.FederatedTypeResolver
-import com.expediagroup.graphql.generator.federation.toFederatedSchema
+//import com.expediagroup.graphql.generator.federation.toFederatedSchema
 import com.expediagroup.graphql.server.operations.Mutation
 import com.expediagroup.graphql.server.operations.Query
 import com.expediagroup.graphql.server.operations.Subscription
@@ -77,13 +77,13 @@ class FederatedSchemaAutoConfiguration(
         subscriptions: Optional<List<Subscription>>,
         schemaConfig: FederatedSchemaGeneratorConfig
     ): GraphQLSchema {
-        val schema = toFederatedSchema(
-            config = schemaConfig,
-            queries = queries.orElse(emptyList()).toTopLevelObjects(),
-            mutations = mutations.orElse(emptyList()).toTopLevelObjects(),
-            subscriptions = subscriptions.orElse(emptyList()).toTopLevelObjects()
-        )
-
+//        val schema = toFederatedSchema(
+//            config = schemaConfig,
+//            queries = queries.orElse(emptyList()).toTopLevelObjects(),
+//            mutations = mutations.orElse(emptyList()).toTopLevelObjects(),
+//            subscriptions = subscriptions.orElse(emptyList()).toTopLevelObjects()
+//        )
+        val schema = TODO("")
         logger.info("\n${schema.print()}")
 
         return schema

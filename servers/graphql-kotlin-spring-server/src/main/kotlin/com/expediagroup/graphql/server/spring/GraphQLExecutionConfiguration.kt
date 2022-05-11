@@ -16,29 +16,32 @@
 
 package com.expediagroup.graphql.server.spring
 
-import com.expediagroup.graphql.generator.execution.KotlinDataFetcherFactoryProvider
-import com.expediagroup.graphql.dataloader.KotlinDataLoaderRegistryFactory
 import com.expediagroup.graphql.dataloader.KotlinDataLoader
+import com.expediagroup.graphql.dataloader.KotlinDataLoaderRegistryFactory
+import com.expediagroup.graphql.generator.execution.KotlinDataFetcherFactoryProvider
 import com.expediagroup.graphql.server.spring.execution.SpringKotlinDataFetcherFactoryProvider
 import graphql.execution.DataFetcherExceptionHandler
 import graphql.execution.SimpleDataFetcherExceptionHandler
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
-import java.util.Optional
+import java.util.*
 
 /**
  * The root configuration class that other configurations can import to get the basic
  * beans required to then create an executable GraphQL schema object.
  */
 @Configuration
-@EnableConfigurationProperties(GraphQLConfigurationProperties::class)
 @Import(JacksonAutoConfiguration::class)
 class GraphQLExecutionConfiguration {
+    @Bean
+    @ConditionalOnMissingBean
+    fun graphQLConfigurationProperties(): GraphQLConfigurationProperties =
+        GraphQLConfigurationProperties(packages = listOf("fr.androidmakers.server"))
+
     @Bean
     @ConditionalOnMissingBean
     fun dataFetcherFactoryProvider(applicationContext: ApplicationContext): KotlinDataFetcherFactoryProvider =

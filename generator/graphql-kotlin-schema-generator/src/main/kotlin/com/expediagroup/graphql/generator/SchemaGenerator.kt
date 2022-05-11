@@ -50,19 +50,9 @@ import kotlin.reflect.full.createType
 open class SchemaGenerator(internal val config: SchemaGeneratorConfig) : Closeable {
 
     internal val additionalTypes: MutableSet<AdditionalType> = mutableSetOf()
-    internal val classScanner = ClassScanner(config.supportedPackages)
     internal val cache = TypesCache(config.supportedPackages)
     internal val codeRegistry = GraphQLCodeRegistry.newCodeRegistry()
     internal val directives = ConcurrentHashMap<String, GraphQLDirective>()
-
-    /**
-     * Validate that the supported packages contain classes
-     */
-    init {
-        if (classScanner.isEmptyScan()) {
-            throw InvalidPackagesException(config.supportedPackages)
-        }
-    }
 
     /**
      * Generate a schema given a list of objects to parse for the queries, mutations, and subscriptions.
@@ -100,11 +90,6 @@ open class SchemaGenerator(internal val config: SchemaGeneratorConfig) : Closeab
      * This is helpful for things like federation or combining external schemas.
      */
     protected fun addAdditionalTypesWithAnnotation(annotation: KClass<*>, inputType: Boolean = false) {
-        classScanner.getClassesWithAnnotation(annotation).forEach { kClass ->
-            if (config.hooks.isValidAdditionalType(kClass, inputType)) {
-                additionalTypes.add(AdditionalType(kClass.createType(), inputType))
-            }
-        }
     }
 
     /**
@@ -140,7 +125,6 @@ open class SchemaGenerator(internal val config: SchemaGeneratorConfig) : Closeab
      * clean up of resources for you.
      */
     override fun close() {
-        classScanner.close()
         cache.close()
         additionalTypes.clear()
         directives.clear()

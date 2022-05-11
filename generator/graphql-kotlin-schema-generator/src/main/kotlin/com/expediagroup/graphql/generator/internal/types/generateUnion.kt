@@ -71,9 +71,7 @@ private fun generateUnionFromKClass(generator: SchemaGenerator, kClass: KClass<*
         builder.withAppliedDirective(it)
     }
 
-    val types = generator.classScanner.getSubTypesOf(kClass)
-
-    return createUnion(name, generator, builder, types)
+    TODO("unions are not supported")
 }
 
 private fun createUnion(typeName: String, generator: SchemaGenerator, builder: GraphQLUnionType.Builder, types: List<KClass<*>>): GraphQLUnionType {

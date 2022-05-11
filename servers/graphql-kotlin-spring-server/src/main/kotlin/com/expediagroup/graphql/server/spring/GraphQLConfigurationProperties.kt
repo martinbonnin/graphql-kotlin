@@ -22,8 +22,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 /**
  * [ConfigurationProperties] bean that defines supported GraphQL configuration options.
  */
-@ConstructorBinding
-@ConfigurationProperties("graphql")
 data class GraphQLConfigurationProperties(
     /** GraphQL server endpoint, defaults to 'graphql' */
     val endpoint: String = "graphql",
